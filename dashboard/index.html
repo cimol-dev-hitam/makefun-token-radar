@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<meta name="description" content="A radar of protocols that record no token yet, ranked by an implied value derived from TVL, seven-day growth and age, with a farm plan for each.">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#board">Skip to the board</a>
+<main id="board" tabindex="-1" aria-busy="true"></main>
+<div class="shell">
+<section class="card method" id="method" aria-labelledby="method-title">
+  <div class="card-head">
+    <h2 id="method-title">The model, in full</h2>
+    <span class="sub">Three multipliers and one rounding step. No protocol name is special-cased anywhere: the same functions score all 198 rows.</span>
+  </div>
+  <div class="formula">implied_value_usd = round( <b>tvl_usd</b> &times; <b>category_multiple</b> &times;
+    clamp(1 + clamp(change_7d, -60, 50) / 100 &times; 0.5, 0.70, 1.25) &times;
+    (1.10 &minus; 0.30 &times; min(age_days, 1460) / 1460) )</div>
+  <div class="families">
+      <div class="family">
+        <div class="band">0.8&times; &ndash; 1.4&times;</div>
+        <h4>Lending, credit and exchange</h4>
+        <p>Balance sheet protocols: their TVL is a book that a token could take a share of.</p>
+        <div class="cats"><span data-cat="Dexs" data-mult="1.25">Dexs <i>1.25</i></span><span data-cat="Lending" data-mult="1.15">Lending <i>1.15</i></span><span data-cat="CDP" data-mult="1.1">CDP <i>1.10</i></span><span data-cat="Collateral Markets" data-mult="1.05">Collateral Markets <i>1.05</i></span><span data-cat="CDP Manager" data-mult="1">CDP Manager <i>1.00</i></span><span data-cat="OTC Marketplace" data-mult="1">OTC Marketplace <i>1.00</i></span><span data-cat="Uncollateralized Lending" data-mult="1">Uncollateralized Lending <i>1.00</i></span><span data-cat="RWA" data-mult="0.95">RWA <i>0.95</i></span><span data-cat="CeDeFi" data-mult="0.9">CeDeFi <i>0.90</i></span><span data-cat="Dual-Token Stablecoin" data-mult="0.85">Dual-Token Stablecoin <i>0.85</i></span><span data-cat="Stablecoin Wrapper" data-mult="0.8">Stablecoin Wrapper <i>0.80</i></span></div>
+      </div>
+      <div class="family">
+        <div class="band">1.0&times; &ndash; 1.6&times;</div>
+        <h4>Perps and derivatives</h4>
+        <p>Fee-earning order flow; the market pays most for a venue that already clears volume.</p>
+        <div class="cats"><span data-cat="Derivatives" data-mult="1.35">Derivatives <i>1.35</i></span><span data-cat="Interest Rate Derivatives" data-mult="1.2">Interest Rate Derivatives <i>1.20</i></span><span data-cat="Basis Trading" data-mult="1.05">Basis Trading <i>1.05</i></span></div>
+      </div>
+      <div class="family">
+        <div class="band">0.5&times; &ndash; 0.9&times;</div>
+        <h4>Yield, vaults and curation</h4>
+        <p>TVL here is other people’s money passing through, so it capitalises at a discount.</p>
+        <div class="cats"><span data-cat="Restaking" data-mult="0.85">Restaking <i>0.85</i></span><span data-cat="Risk Curators" data-mult="0.8">Risk Curators <i>0.80</i></span><span data-cat="Staking Pool" data-mult="0.75">Staking Pool <i>0.75</i></span><span data-cat="Yield" data-mult="0.75">Yield <i>0.75</i></span><span data-cat="Onchain Capital Allocator" data-mult="0.72">Onchain Capital Allocator <i>0.72</i></span><span data-cat="Leveraged Farming" data-mult="0.7">Leveraged Farming <i>0.70</i></span><span data-cat="Yield Aggregator" data-mult="0.65">Yield Aggregator <i>0.65</i></span><span data-cat="Farm" data-mult="0.6">Farm <i>0.60</i></span><span data-cat="Indexes" data-mult="0.6">Indexes <i>0.60</i></span><span data-cat="Governance Incentives" data-mult="0.55">Governance Incentives <i>0.55</i></span><span data-cat="Liquidity Manager" data-mult="0.55">Liquidity Manager <i>0.55</i></span></div>
+      </div>
+      <div class="family">
+        <div class="band">0.6&times; &ndash; 1.0&times;</div>
+        <h4>Chain and infrastructure</h4>
+        <p>Usage that a token would have to reach beyond its own chain to grow into.</p>
+        <div class="cats"><span data-cat="Chain" data-mult="0.85">Chain <i>0.85</i></span><span data-cat="Cross Chain Bridge" data-mult="0.7">Cross Chain Bridge <i>0.70</i></span><span data-cat="Decentralized BTC" data-mult="0.7">Decentralized BTC <i>0.70</i></span><span data-cat="Payments" data-mult="0.7">Payments <i>0.70</i></span><span data-cat="Crypto Card Issuer" data-mult="0.65">Crypto Card Issuer <i>0.65</i></span><span data-cat="Insurance" data-mult="0.65">Insurance <i>0.65</i></span><span data-cat="Anchor BTC" data-mult="0.6">Anchor BTC <i>0.60</i></span></div>
+      </div>
+      <div class="family">
+        <div class="band">0.4&times; &ndash; 0.6&times;</div>
+        <h4>Unclassified</h4>
+        <p>The record names no category, so the multiple stays at the low end.</p>
+        <div class="cats"></div>
+      </div>
+    <div class="family">
+      <div class="band">0.5&times;</div>
+      <h4>Every other category</h4>
+      <p>A record with no category, or one this table does not name, takes 0.5&times;: the low end, because there is nothing in the record to argue from.</p>
+      <div class="cats"><span>unnamed or unmapped <i>0.50</i></span></div>
+    </div>
+  </div>
+  <div class="notes">
+    <p><b>Why the family bands differ.</b> A lending book or a DEX is fee-earning capital that a token could take a share of, so it capitalises near or above its TVL. A curator&rsquo;s or an aggregator&rsquo;s TVL is other people&rsquo;s money in transit, so it capitalises at a discount. Perps clear the most fee flow per dollar of TVL and take the highest band.</p>
+    <p><b>Why momentum is asymmetric.</b> Seven days of growth is a thin signal: it can add at most 25% (a 50% week) and take away at most 30% (a 60% week), and it is clamped there, so a single violent week cannot decide a whole rank. A protocol whose record carries no seven-day change is scored as flat.</p>
+    <p><b>Why age discounts.</b> A protocol tracked for three years that still records no token has had its window; one tracked for three months has not. The discount runs from 1.10&times; at listing down to 0.80&times; after 1460 days, and a protocol with no listing date counts 540 days.</p>
+    <p><b>What is left out.</b> A wrapped, staked, bridged or versioned product of a token that already trades is no launch of its own, so CEX, bridges, liquid staking and restaking, restaked BTC, versioned pools, exchange-branded pools and names carrying a whole word wrapped, staked or staking never reach the board. The protocols whose token already trades are listed in their own tab with the market&rsquo;s numbers, never the model&rsquo;s.</p>
+  </div>
+  <div class="foot">
+    <span>Snapshot 2026-11-14 &middot; DefiLlama protocol index &middot; ranks are this radar&rsquo;s claim, recomputed by the same functions on every run.</span>
+    <span>A protocol that records no token may still have one the record does not carry. An implied value is this page&rsquo;s own claim: never a price, never a promise, and never advice.</span>
+  </div>
+</section>
+</div>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
